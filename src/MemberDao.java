@@ -8,6 +8,10 @@ public class MemberDao {
 
 	private int no = 1;
 	
+	public MemberDao(){
+		members = new ArrayList<>();
+	}
+	
 	public void removeMember(Member m) {
 		member.remove(m);
 	}
