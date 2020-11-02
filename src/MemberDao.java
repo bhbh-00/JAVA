@@ -12,9 +12,9 @@ public class MemberDao {
 		members = new ArrayList<>();
 	}
 	
-	public void removeMember(Member m) {
-		member.remove(m);
-	}
+// 	public void removeMember(Member m) {
+// 		member.remove(m);
+// 	}
 
 	public ArrayList<Member> getMember() {
 		return member;
