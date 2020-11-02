@@ -10,6 +10,8 @@ public class App {
 
 	public void start() {
 
+		// 1. 회원가입 기능이 안됌. 2.게시물 검색 기능 확인해보기 3. 전체적으로 기능이 잘 구현되는지 확인해보고 19번 하기!
+		
 		Scanner sc = new Scanner(System.in);
 
 		System.out.println("Hello world~!");
