@@ -3,11 +3,9 @@ public class Member {
 	
 	private int MRegNum; // 회원가입 등록고유번호
 	private String MRegId; // 회원가입 아이디
-	private int MRegPW; // 회원가입 PW
+	private String MRegPW; // 회원가입 PW
 	private String MRegNN; // 회원가입 닉네임
 	private String Mdate; // 회원가입 등록날짜
-	
-	
 	public int getMRegNum() {
 		return MRegNum;
 	}
@@ -20,10 +18,10 @@ public class Member {
 	public void setMRegId(String mRegId) {
 		MRegId = mRegId;
 	}
-	public int getMRegPW() {
+	public String getMRegPW() {
 		return MRegPW;
 	}
-	public void setMRegPW(int mRegPW) {
+	public void setMRegPW(String mRegPW) {
 		MRegPW = mRegPW;
 	}
 	public String getMRegNN() {
