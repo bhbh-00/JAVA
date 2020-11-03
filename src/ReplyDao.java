@@ -73,40 +73,6 @@ public class ReplyDao {
 	} 
 
 
-//	// 제목과 내용으로 검색
-//	public ArrayList<Reply> getSearchedReplyByflag(int flag, String Keyword) {
-//
-//		ArrayList<Reply> SearchedReply = new ArrayList<>();
-//
-//		for (int i = 0; i < replies.size(); i++) {
-//			Reply replies2 = replies.get(i);
-//
-//			String str = replies2.getPropertiesByFlag(flag); // Properties : 속성
-//			if (str.contains(Keyword)) {
-//				SearchedReply.add(replies2);
-//			}
-//		}
-//
-//		return SearchedReply;
-//	}
-
-//	// 내용으로 검색
-//	public ArrayList<Reply> getSearchedReplyByBody(String Keyword) {
-//		ArrayList<Reply> SearchedReply = new ArrayList<>();
-//
-//		for (int i = 0; i < replies.size(); i++) {
-//			Reply replies2 = replies.get(i);
-//
-//			String str = replies.getBody(); // 각 게시물 내용
-//			if (str.contains(Keyword)) {
-//				SearchedReply.add(replies);
-//			}
-//		}
-//
-//		return SearchedReply;
-//
-//	}
-	
 	public ArrayList<Reply> getreplies() {
 		return replies;
 	}

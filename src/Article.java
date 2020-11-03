@@ -7,6 +7,7 @@ public class Article {
 	private String date; // 등록날짜
 	private int Views; // 조회수
 
+
 	public Article(int RegId, String Title, String Body, int Mid, String date) {
 		this.RegId = RegId;
 		this.Title = Title;

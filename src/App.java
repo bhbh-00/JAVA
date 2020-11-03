@@ -93,6 +93,7 @@ public class App {
 						String NewBody = sc.nextLine();
 						Target.setTitle(NewTitle);
 						Target.setBody(NewBody);
+						
 						System.out.println("게시물이 수정 되었습니다.");
 					}
 				}
@@ -163,12 +164,24 @@ public class App {
 
 						} else if (readCmd == 2) {
 							System.out.println("좋아요");
+							if (!isLogin()) {
+								continue;
+							} else {
+							 // s2를 입력하면 좋아요. -> 누가 좋아요를 입력 했는지 기억(저장) 해야함
+								String like = sc.nextLine();
+								if (like == "s2") {
+									System.out.println("좋아요가 완료되었습니다.");
+									// 입력을 받으면 입력자?를 저장해야함 *tip 댓글 기능과 비슷
+								}
+							}
+							
 						} else if (readCmd == 3) {
 							// 수정 -> 로그인 후 사용 가능 -> 수정 후 상세보기 보여주기 printArticle(target)
+							
 							if (!isLogin() || isMyArticle(target)) {
 								continue;
 							} 
-							
+
 							System.out.println("게시물의 제목을 입력해주세요.");
 							String title = sc.nextLine();
 							target.setTitle(title);
@@ -176,7 +189,9 @@ public class App {
 							System.out.println("게시물의 내용을 입력해주세요.");
 							String body = sc.nextLine();
 							target.setBody(body);
-
+							System.out.println("게시물이 수정되었습니다.");
+							System.out.println();
+							
 							printArticle(target);
 
 						} else if (readCmd == 4) {
@@ -184,7 +199,7 @@ public class App {
 							if (!isLogin()) {
 								continue;
 							} 
-							
+	
 							ADao.removeArticle(target);
 
 						} else if (readCmd == 5) {
@@ -307,7 +322,6 @@ public class App {
 		for (int i = 0; i < replyList.size(); i++) {
 			Reply reply = replyList.get(i);
 			System.out.println("내용 : " + reply.getBody());
-			System.out.println("작성자 : " + reply.getNname());
 			System.out.println("등록날짜 : " + reply.getDate());
 			System.out.println("===================");
 		}
@@ -325,7 +339,7 @@ public class App {
 	
 	private boolean	isMyArticle(Article article) {
 		if(loginedMember.getMRegNum() != article.getMid()) {
-			System.out.println("본인의 게시물만 수정 가능합니다.");
+			System.out.println("본인의 게시물만 수정/삭제 가능합니다.");
 			return false;
 		}
 		return true;
