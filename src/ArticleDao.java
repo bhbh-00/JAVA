@@ -10,9 +10,9 @@ public class ArticleDao {
 
 	public ArticleDao() {
 		articles = new ArrayList<Article>();
-		Article list1 = new Article(1, "제목1", "내용1", "익명", getCurrenDate());
-		Article list2 = new Article(2, "제목2", "내용2", "익명", getCurrenDate());
-		Article list3 = new Article(3, "제목3", "내용3", "익명", getCurrenDate());
+		Article list1 = new Article(1, "제목1", "내용1", 1, getCurrenDate());
+		Article list2 = new Article(2, "제목2", "내용2", 2, getCurrenDate());
+		Article list3 = new Article(3, "제목3", "내용3", 3, getCurrenDate());
 
 		articles.add(list1);
 		articles.add(list2);

@@ -3,17 +3,16 @@ public class Article {
 	private int RegId; // 등록번호
 	private String Title; // 제목
 	private String Body; // 내용
-	private String Nname; // 작성자
+	private int Mid; // 작성자
 	private String date; // 등록날짜
 	private int Views; // 조회수
 
-	public Article(int RegId, String Title, String Body, String Nname, String date) {
+	public Article(int RegId, String Title, String Body, int Mid, String date) {
 		this.RegId = RegId;
 		this.Title = Title;
 		this.Body = Body;
-		this.Nname = Nname;
+		this.Mid = Mid;
 		this.date = date;
-
 	}
 
 
@@ -46,12 +45,12 @@ public class Article {
 		Body = body;
 	}
 	
-	public String getNname() {
-		return Nname;
+	public int getMid() {
+		return Mid;
 	}
 
-	public void setNname(String nname) {
-		Nname = nname;
+	public void setMid(int Mid) {
+		Mid = Mid;
 	}
 
 	public String getDate() {
@@ -81,7 +80,7 @@ public class Article {
 		} else if(flag == 3) {
 			str = this.getTitle() + this.getBody();
 		} else {
-			str = this.getNname();
+			str = this.getMid() + "" ;
 		}
 		
 		return str;

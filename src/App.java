@@ -11,7 +11,7 @@ public class App {
 	public void start() {
 
 		// 1. 회원가입 기능이 안됌. 2.게시물 검색 기능 확인해보기 3. 전체적으로 기능이 잘 구현되는지 확인해보고 19번 하기!
-		
+
 		Scanner sc = new Scanner(System.in);
 
 		System.out.println("Hello world~!");
@@ -24,7 +24,7 @@ public class App {
 			} else {
 				System.out.println();
 				System.out
-						.println("명령어 입력 [ " + loginedMember.getMRegId() + " ( " + loginedMember.getMRegNN() + " ] : ");
+						.println("명령어 입력 [ " + loginedMember.getMRegId() + " (" + loginedMember.getMRegNN() + ") ] : ");
 			}
 
 			String cmd = sc.nextLine();
@@ -57,7 +57,7 @@ public class App {
 					System.out.println("게시물의 내용을 입력해주세요.");
 					String body = sc.nextLine();
 					a.setBody(body);
-					a.setNname(loginedMember.getMRegNN());
+					a.setMid(loginedMember.getMRegNum());
 
 					ADao.insertArticle(a);
 					System.out.println("게시물이 추가 되었습니다.");
@@ -164,38 +164,28 @@ public class App {
 						} else if (readCmd == 2) {
 							System.out.println("좋아요");
 						} else if (readCmd == 3) {
-							System.out.println("게시물을 수정하시겠습니까?");
-							if (!isLogin()) {
+							// 수정 -> 로그인 후 사용 가능 -> 수정 후 상세보기 보여주기 printArticle(target)
+							if (!isLogin() || isMyArticle(target)) {
 								continue;
-							} else {
-								Article a = new Article();
-								System.out.println("게시물의 제목을 입력해주세요.");
-								String NewTitle = sc.nextLine();
-								System.out.println("게시물의 내용을 입력해주세요.");
-								String NewBody = sc.nextLine();
-								a.setTitle(NewTitle);
-								a.setBody(NewBody);
-								System.out.println("게시물이 수정 되었습니다.");
-							}
+							} 
+							
+							System.out.println("게시물의 제목을 입력해주세요.");
+							String title = sc.nextLine();
+							target.setTitle(title);
+
+							System.out.println("게시물의 내용을 입력해주세요.");
+							String body = sc.nextLine();
+							target.setBody(body);
+
+							printArticle(target);
 
 						} else if (readCmd == 4) {
-							
-							System.out.println("게시물을 삭제하시겠습니까?");
-							
+							// 삭제
 							if (!isLogin()) {
-								
 								continue;
-								
-							} else {
-								Article a = new Article();
-								System.out.println("게시물의 제목을 입력해주세요.");
-								String NewTitle = sc.nextLine();
-								System.out.println("게시물의 내용을 입력해주세요.");
-								String NewBody = sc.nextLine();
-								a.setTitle(NewTitle);
-								a.setBody(NewBody);
-								System.out.println("게시물이 수정 되었습니다.");
-							}
+							} 
+							
+							ADao.removeArticle(target);
 
 						} else if (readCmd == 5) {
 							break;
@@ -284,11 +274,11 @@ public class App {
 	private void printArticles(ArrayList<Article> articleList) {
 		for (int i = 0; i < articleList.size(); i++) {
 			Article article = articleList.get(i);
-			Member m = new Member(); 
 			System.out.println("번호 : " + article.getRegId());
 			System.out.println("제목 : " + article.getTitle());
 			System.out.println("등록날짜 : " + article.getDate());
-			System.out.println("작성자 : " + m.getMRegId());
+			Member regMember = MDao.getMemberById(article.getMid());
+			System.out.println("작성자 : " + regMember.getMRegNN());
 			System.out.println("조회수 : " + article.getViews());
 			System.out.println("===================");
 		}
@@ -301,6 +291,8 @@ public class App {
 		System.out.println("제목 : " + target.getTitle());
 		System.out.println("내용 : " + target.getBody());
 		System.out.println("등록날짜 : " + target.getDate());
+		Member regMember = MDao.getMemberById(target.getMid());
+		System.out.println("작성자 : " + regMember.getMRegNN());
 		System.out.println("조회수 : " + target.getBody());
 		System.out.println("===============");
 		System.out.println("================댓글==============");
@@ -320,7 +312,7 @@ public class App {
 			System.out.println("===================");
 		}
 	}
-	
+
 	// 로그인 후 이용가능
 	private boolean isLogin() {
 		if (loginedMember == null) {
@@ -329,5 +321,13 @@ public class App {
 		} else {
 			return true;
 		}
+	}
+	
+	private boolean	isMyArticle(Article article) {
+		if(loginedMember.getMRegNum() != article.getMid()) {
+			System.out.println("본인의 게시물만 수정 가능합니다.");
+			return false;
+		}
+		return true;
 	}
 }

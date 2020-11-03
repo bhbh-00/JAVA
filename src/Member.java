@@ -6,6 +6,19 @@ public class Member {
 	private String MRegPW; // 회원가입 PW
 	private String MRegNN; // 회원가입 닉네임
 	private String Mdate; // 회원가입 등록날짜
+	
+	public Member( ) {
+		// 오버로딩
+	}
+	
+	public Member (int RegId, String Id, String Pw, String NN, String date) {
+		this.MRegNum = RegId;
+		this.MRegId = Id;
+		this.MRegPW = Pw;
+		this.MRegNN = NN;
+		this.Mdate = date;
+	}
+	
 	public int getMRegNum() {
 		return MRegNum;
 	}
