@@ -19,13 +19,17 @@ public class Test {
 		Collections.sort(StringList);
 
 		System.out.println(StringList);
-		
-		for(int i = 1; i < 11; i++) {
+
+		for (int i = 1; i < 11; i++) {
 			intList.add(i);
 		}
-		
+
 		Collections.sort(intList);
 		System.out.println(intList);
+
+		Collections.sort(intList, new AscendingInteger());
+		Collections.sort(StringList, new AscendingString());
+
 	}
 }
 
