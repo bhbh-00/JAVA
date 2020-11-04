@@ -1,6 +1,4 @@
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ArticleDao {
 
@@ -10,9 +8,9 @@ public class ArticleDao {
 
 	public ArticleDao() {
 		articles = new ArrayList<Article>();
-		Article list1 = new Article(1, "제목1", "내용1", 1, getCurrenDate());
-		Article list2 = new Article(2, "제목2", "내용2", 2, getCurrenDate());
-		Article list3 = new Article(3, "제목3", "내용3", 3, getCurrenDate());
+		Article list1 = new Article(1, "제목1", "내용1", 1, Util.getCurrenDate());
+		Article list2 = new Article(2, "제목2", "내용2", 2, Util.getCurrenDate());
+		Article list3 = new Article(3, "제목3", "내용3", 3, Util.getCurrenDate());
 
 		articles.add(list1);
 		articles.add(list2);
@@ -25,7 +23,7 @@ public class ArticleDao {
 		a.setRegId(no);
 		no++;
 
-		a.setDate(getCurrenDate());
+		a.setDate(Util.getCurrenDate());
 
 		articles.add(a);
 	}
@@ -34,17 +32,7 @@ public class ArticleDao {
 	public void removeArticle(Article a) {
 		articles.remove(a);
 	}
-
-	// 등록날짜
-	private static String getCurrenDate() {
-		SimpleDateFormat format1 = new SimpleDateFormat("yyyy.MM.dd");
-		Date time = new Date();
-
-		String t1 = format1.format(time);
-
-		return t1;
-	}
-
+	
 	//
 	public Article getArticleByRegId(int targetId) {
 		for (int i = 0; i < articles.size(); i++) {

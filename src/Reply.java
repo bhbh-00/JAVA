@@ -1,5 +1,4 @@
-  
-
+// 데이터 구조화 클래스 = DTO, VO  
 public class Reply {
 	private int RegId; // 댓글등록번호
 	private int parentId; // 부모번호

@@ -1,6 +1,4 @@
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class MemberDao {
 
@@ -11,9 +9,9 @@ public class MemberDao {
 	public MemberDao() {
 		member = new ArrayList<>();
 
-		Member m1 = new Member(1, "sony7", "7777", "손흥민", getCurrenDate());
-		Member m2 = new Member(2, "adc123", "a123", "ABC", getCurrenDate());
-		Member m3 = new Member(3, "gugu9", "9999", "구구단", getCurrenDate());
+		Member m1 = new Member(1, "sony7", "7777", "손흥민", Util.getCurrenDate());
+		Member m2 = new Member(2, "adc123", "a123", "ABC", Util.getCurrenDate());
+		Member m3 = new Member(3, "gugu9", "9999", "구구단", Util.getCurrenDate());
 
 		member.add(m1);
 		member.add(m2);
@@ -32,21 +30,11 @@ public class MemberDao {
 		m.getMRegNum();
 		no++;
 
-		m.setMdate(getCurrenDate());
+		m.setMdate(Util.getCurrenDate());
 
 		member.add(m);
 	}
-
-	// 등록날짜
-	private static String getCurrenDate() {
-		SimpleDateFormat format1 = new SimpleDateFormat("yyyy.MM.dd");
-		Date time = new Date();
-
-		String t1 = format1.format(time);
-
-		return t1;
-	}
-
+	
 	public Member getMemberByLoginIdAndPw(String id, String pw) {
 
 		for (int i = 0; i < member.size(); i++) {

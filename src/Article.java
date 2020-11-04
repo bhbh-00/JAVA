@@ -1,4 +1,4 @@
-
+// 데이터 구조화 클래스 = DTO, VO
 public class Article {
 	private int RegId; // 등록번호
 	private String Title; // 제목

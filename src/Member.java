@@ -1,4 +1,4 @@
-
+// 데이터 구조화 클래스 = DTO, VO
 public class Member {
 	
 	private int MRegNum; // 회원가입 등록고유번호

@@ -7,6 +7,7 @@ public class App {
 	ArticleDao ADao = new ArticleDao();
 	MemberDao MDao = new MemberDao();
 	Member loginedMember = null;
+	LikeitDao LDao = new LikeitDao();
 
 	public void start() {
 
@@ -36,7 +37,7 @@ public class App {
 			// 로그인 기능
 			if (cmd.equals("help")) {
 				System.out.println("Article");
-				System.out.println("[add: 게시물 추가 / list : 게시물 목록 조회 / read : 게시물 조회 / search : 검색]");
+				System.out.println("[add: 게시물 추가 / list : 게시물 목록 조회 / read : 게시물 조회 / search : 검색 / sort : 정렬]");
 				System.out.println("Member");
 				System.out.println(
 						"[signup : 회원가입 / signin : 로그인 / findpass : 비밀번호 찾기 / findid : 아이디 찾기 / logout : 로그아웃 / myinfo : 나의 정보 확인 및 수정]");
@@ -93,7 +94,7 @@ public class App {
 						String NewBody = sc.nextLine();
 						Target.setTitle(NewTitle);
 						Target.setBody(NewBody);
-						
+
 						System.out.println("게시물이 수정 되었습니다.");
 					}
 				}
@@ -164,23 +165,32 @@ public class App {
 
 						} else if (readCmd == 2) {
 							System.out.println("좋아요");
+
 							if (!isLogin()) {
 								continue;
+							}
+
+							Likeit like = new Likeit(target.getRegId(), loginedMember.getMRegNum());
+
+							Likeit rst = LDao.getLikeByArticleIdAndMemberId(target.getRegId(),loginedMember.getMRegNum());
+							LDao.insertLikeit(like);
+
+							if (rst == null) {
+								LDao.insertLikeit(like);
+								System.out.println("좋아요가 등록 되었습니다.");
 							} else {
-							 // s2를 입력하면 좋아요. -> 누가 좋아요를 입력 했는지 기억(저장) 해야함
-								String like = sc.nextLine();
-								if (like == "s2") {
-									System.out.println("좋아요가 완료되었습니다.");
-									// 입력을 받으면 입력자?를 저장해야함 *tip 댓글 기능과 비슷
-								}
+								LDao.removeLikeit(rst);
+								System.out.println("좋아요가 해제 되었습니다.");
 							}
 							
+							printArticle(target);
+
 						} else if (readCmd == 3) {
 							// 수정 -> 로그인 후 사용 가능 -> 수정 후 상세보기 보여주기 printArticle(target)
-							
+
 							if (!isLogin() || isMyArticle(target)) {
 								continue;
-							} 
+							}
 
 							System.out.println("게시물의 제목을 입력해주세요.");
 							String title = sc.nextLine();
@@ -191,15 +201,15 @@ public class App {
 							target.setBody(body);
 							System.out.println("게시물이 수정되었습니다.");
 							System.out.println();
-							
+
 							printArticle(target);
 
 						} else if (readCmd == 4) {
 							// 삭제
 							if (!isLogin()) {
 								continue;
-							} 
-	
+							}
+
 							ADao.removeArticle(target);
 
 						} else if (readCmd == 5) {
@@ -301,7 +311,7 @@ public class App {
 
 	// 게시판리스트출력 -> 기능 : read - 번호,제목,내용,등록날짜,작성자,조회수 + 댓글
 	private void printArticle(Article target) {
-		System.out.println("==== " + target.getRegId() + " ====");
+		System.out.println("==== " + target.getRegId() + "====");
 		System.out.println("번호 : " + target.getRegId());
 		System.out.println("제목 : " + target.getTitle());
 		System.out.println("내용 : " + target.getBody());
@@ -309,6 +319,9 @@ public class App {
 		Member regMember = MDao.getMemberById(target.getMid());
 		System.out.println("작성자 : " + regMember.getMRegNN());
 		System.out.println("조회수 : " + target.getBody());
+
+		int Likecnt = LDao.getLikeCount(target.getRegId());
+		System.out.println("좋아요 : " + Likecnt);
 		System.out.println("===============");
 		System.out.println("================댓글==============");
 
@@ -336,9 +349,9 @@ public class App {
 			return true;
 		}
 	}
-	
-	private boolean	isMyArticle(Article article) {
-		if(loginedMember.getMRegNum() != article.getMid()) {
+
+	private boolean isMyArticle(Article article) {
+		if (loginedMember.getMRegNum() != article.getMid()) {
 			System.out.println("본인의 게시물만 수정/삭제 가능합니다.");
 			return false;
 		}

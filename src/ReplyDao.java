@@ -1,6 +1,4 @@
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ReplyDao {
 	
@@ -25,7 +23,7 @@ public class ReplyDao {
 		r.setRegId(no);
 		no++;
 
-		r.setDate(getCurrenDate());
+		r.setDate(Util.getCurrenDate());
 
 		replies.add(r);
 	}
@@ -33,16 +31,6 @@ public class ReplyDao {
 	// 제거
 	public void removeReply(Reply r) {
 		replies.remove(r);
-	}
-
-	// 등록날짜
-	private String getCurrenDate() {
-		SimpleDateFormat format1 = new SimpleDateFormat("yyyy.MM.dd");
-		Date time = new Date();
-
-		String t1 = format1.format(time);
-
-		return t1;
 	}
 
 	//
