@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 
 public class App {
@@ -170,7 +173,8 @@ public class App {
 
 							Likeit like = new Likeit(target.getRegId(), loginedMember.getMRegNum());
 
-							Likeit rst = LDao.getLikeByArticleIdAndMemberId(target.getRegId(),loginedMember.getMRegNum());
+							Likeit rst = LDao.getLikeByArticleIdAndMemberId(target.getRegId(),
+									loginedMember.getMRegNum());
 							LDao.insertLikeit(like);
 
 							if (rst == null) {
@@ -180,7 +184,7 @@ public class App {
 								LDao.removeLikeit(rst);
 								System.out.println("좋아요가 해제 되었습니다.");
 							}
-							
+
 							printArticle(target);
 
 						} else if (readCmd == 3) {
@@ -234,9 +238,20 @@ public class App {
 					printArticles(searchedArticles);
 				}
 			}
-			
+
 			if (cmd.equals("Article sort")) {
-				// 좋아요 수와 날짜로 게시물들이 정렬 되어야함
+				System.out.println("정렬 기준");
+				String sortType = sc.nextLine();
+				System.out.println("정렬 방식 선택 / 오름차 내림차");
+				String sortOrder = sc.nextLine();
+				MycompArticle comp1 = new MycompArticle();
+				comp1.sortOrder = sortOrder;
+
+				// 조회수로 오름차순, 내림차순
+				ArrayList<Article> ac = ADao.getArticles();
+				Collections.sort(ac, comp1);
+				printArticles(ac);
+
 			}
 			// =========================== Member ==============================
 
@@ -296,6 +311,8 @@ public class App {
 
 	}
 
+	// =========================== 함수 ==============================
+
 	// 게시판리스트출력 -> 기능 : list - 번호,제목,등록날짜,작성자,조회수
 	private void printArticles(ArrayList<Article> articleList) {
 		for (int i = 0; i < articleList.size(); i++) {
@@ -319,7 +336,7 @@ public class App {
 		System.out.println("등록날짜 : " + target.getDate());
 		Member regMember = MDao.getMemberById(target.getMid());
 		System.out.println("작성자 : " + regMember.getMRegNN());
-		System.out.println("조회수 : " + target.getBody());
+		System.out.println("조회수 : " + target.getViews());
 
 		int Likecnt = LDao.getLikeCount(target.getRegId());
 		System.out.println("좋아요 : " + Likecnt);
@@ -357,5 +374,28 @@ public class App {
 			return false;
 		}
 		return true;
+	}
+}
+
+// =========================== 정렬 ==============================
+//조회수 수 순서대로 오름차순,  내림차순
+class MycompArticle implements Comparator<Article> {
+
+	String sortOrder = "asc";
+	String sortType = "hit";
+	@Override
+	public int compare(Article o1, Article o2) {
+		
+		if (sortOrder.equals("asc")) {
+			if (o1.getViews() > o2.getViews()) {
+				return 1; // 양수로 하는 게 확실
+			}
+			return -1;
+		} else {
+			if (o1.getViews() < o2.getViews()) {
+				return 1; // 양수로 하는 게 확실
+			}
+			return -1;
+		}
 	}
 }

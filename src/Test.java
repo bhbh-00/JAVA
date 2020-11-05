@@ -31,8 +31,7 @@ public class Test {
 		Collections.sort(StringList, new AscendingString());
 
 	}
-}
-
+} 
 class AscendingString implements Comparator<String> {
 	// Override
 	public int compare(String a, String b) {

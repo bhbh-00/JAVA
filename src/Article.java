@@ -8,12 +8,13 @@ public class Article {
 	private int Views; // 조회수
 
 
-	public Article(int RegId, String Title, String Body, int Mid, String date) {
+	public Article(int RegId, String Title, String Body, int Mid, String date, int views) {
 		this.RegId = RegId;
 		this.Title = Title;
 		this.Body = Body;
 		this.Mid = Mid;
 		this.date = date;
+		this.Views = views;
 	}
 
 
@@ -88,3 +89,5 @@ public class Article {
 		
 	}
 }
+
+
