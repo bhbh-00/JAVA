@@ -171,16 +171,15 @@ public class App {
 								continue;
 							}
 
-							Likeit like = new Likeit(target.getRegId(), loginedMember.getMRegNum());
-
-							Likeit rst = LDao.getLikeByArticleIdAndMemberId(target.getRegId(),
-									loginedMember.getMRegNum());
-							LDao.insertLikeit(like);
-
+							Likeit rst = LDao.getLikeByArticleIdAndMemberId(target.getRegId(),loginedMember.getMRegNum());
+							
 							if (rst == null) {
+								//좋아요
+								Likeit like = new Likeit(target.getRegId(), loginedMember.getMRegNum());
 								LDao.insertLikeit(like);
-								System.out.println("좋아요가 등록 되었습니다.");
+								System.out.println("좋아요를 체크했습니다.");
 							} else {
+								//좋아요 해제-삭제
 								LDao.removeLikeit(rst);
 								System.out.println("좋아요가 해제 되었습니다.");
 							}
@@ -240,17 +239,17 @@ public class App {
 			}
 
 			if (cmd.equals("Article sort")) {
-				System.out.println("정렬 기준");
+				System.out.println("정렬 대상을 선택해주세요. : (like : 좋아요,  hit : 조회수)");
 				String sortType = sc.nextLine();
-				System.out.println("정렬 방식 선택 / 오름차 내림차");
+				System.out.println("정렬 방법을 선택해주세요. : (asc : 오름차순,  desc : 내림차순)");
 				String sortOrder = sc.nextLine();
 				MycompArticle comp1 = new MycompArticle();
 				comp1.sortOrder = sortOrder;
 
 				// 조회수로 오름차순, 내림차순
-				ArrayList<Article> ac = ADao.getArticles();
-				Collections.sort(ac, comp1);
-				printArticles(ac);
+				ArrayList<Article> article = ADao.getArticles();
+				Collections.sort(article, comp1);
+				printArticles(article);
 
 			}
 			// =========================== Member ==============================
@@ -323,6 +322,8 @@ public class App {
 			Member regMember = MDao.getMemberById(article.getMid());
 			System.out.println("작성자 : " + regMember.getMRegNN());
 			System.out.println("조회수 : " + article.getViews());
+			int Likecnt = LDao.getLikeCount(article.getRegId());
+			System.out.println("좋아요 : " + Likecnt);
 			System.out.println("===================");
 		}
 	}
@@ -383,9 +384,10 @@ class MycompArticle implements Comparator<Article> {
 
 	String sortOrder = "asc";
 	String sortType = "hit";
+
 	@Override
 	public int compare(Article o1, Article o2) {
-		
+
 		if (sortOrder.equals("asc")) {
 			if (o1.getViews() > o2.getViews()) {
 				return 1; // 양수로 하는 게 확실

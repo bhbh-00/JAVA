@@ -20,20 +20,22 @@ public class LikeitDao {
 		likeits.add(l);
 	}
 
-	public Likeit getLikeByArticleIdAndMemberId(int aid, int mm) {
+	public Likeit getLikeByArticleIdAndMemberId(int aid, int mid) {
 		for (int i = 0; i < likeits.size(); i++) {
 			Likeit like = likeits.get(i);
-			if (like.getParentId() == aid && like.getMemberId() == mm) {
+			if (like.getParentId() == aid && like.getMemberId() == mid) {
 				return like;
 			}
 		}
 		return null;
 	}
-
+	
+	//좋아요 해제 - 삭제
 	public void removeLikeit(Likeit rst) {
 		likeits.remove(rst);
 	}
-
+	
+	//좋아요 수
 	public int getLikeCount(int id) {
 		int cnt = 0;
 		for (int i = 0; i < likeits.size(); i++) {
