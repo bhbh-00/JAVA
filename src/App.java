@@ -16,6 +16,11 @@ public class App {
 
 		Scanner sc = new Scanner(System.in);
 
+		String[] Article = { "add: 게시물 추가", "list : 게시물 목록 조회", "read : 게시물 조회", "search : 검색",
+				"sort : 정렬", "page : 페이지" };
+		String[] Member = { "signup : 회원가입", "signin : 로그인", "findpass : 비밀번호 찾기", "findid : 아이디 찾기", 
+				"logout : 로그아웃", "myinfo : 나의 정보 확인 및 수정" };
+
 		System.out.println("Hello world~!");
 
 		while (true) {
@@ -37,12 +42,16 @@ public class App {
 			}
 			// 로그인 기능
 			if (cmd.equals("help")) {
+				System.out.println();
 				System.out.println("Article");
-				System.out.println("[add: 게시물 추가 / list : 게시물 목록 조회 / read : 게시물 조회]");
-				System.out.println("[search : 검색 / sort : 정렬 / page : 페이지]");
+				for (int i = 0; i < Article.length; i++) {
+					System.out.println(Article[i]);
+				}
+				System.out.println();
 				System.out.println("Member");
-				System.out.println("[signup : 회원가입 / signin : 로그인 / findpass : 비밀번호 찾기 / findid : 아이디 찾기]");
-				System.out.println("[logout : 로그아웃 / myinfo : 나의 정보 확인 및 수정]");
+				for (int i = 0; i < Member.length; i++) {
+					System.out.println(Member[i]);
+				}
 			}
 			// 게시물추가 add - 등록번호, 제목, 내용 추가
 			if (cmd.equals("Article add")) {
@@ -259,7 +268,7 @@ public class App {
 			}
 			// 1106 - 페이징
 			if (cmd.equals("Article page")) {
-				
+
 			}
 			// =========================== Member ==============================
 
