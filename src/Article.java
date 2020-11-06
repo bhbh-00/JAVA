@@ -6,15 +6,16 @@ public class Article {
 	private int Mid; // 작성자
 	private String date; // 등록날짜
 	private int Views; // 조회수
+	private int LikeCnt; // 좋아요 수
 
-
-	public Article(int RegId, String Title, String Body, int Mid, String date, int views) {
+	public Article(int RegId, String Title, String Body, int Mid, String date, int views, int like) {
 		this.RegId = RegId;
 		this.Title = Title;
 		this.Body = Body;
 		this.Mid = Mid;
 		this.date = date;
 		this.Views = views;
+		this.LikeCnt = like;
 	}
 
 
@@ -71,6 +72,17 @@ public class Article {
 		this.Views = views;
 	}
 	
+	
+	public int getLikeCnt() {
+		return LikeCnt;
+	}
+
+
+	public void setLikeCnt(int likeCnt) {
+		LikeCnt = likeCnt;
+	}
+
+
 	// 검색기능 1.제목 2.내용 3.제목+내용 4.작성자
 	public String getPropertiesByFlag(int flag) {
 		String str = "";

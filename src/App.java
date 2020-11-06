@@ -38,10 +38,11 @@ public class App {
 			// 로그인 기능
 			if (cmd.equals("help")) {
 				System.out.println("Article");
-				System.out.println("[add: 게시물 추가 / list : 게시물 목록 조회 / read : 게시물 조회 / search : 검색 / sort : 정렬]");
+				System.out.println("[add: 게시물 추가 / list : 게시물 목록 조회 / read : 게시물 조회]");
+				System.out.println("[search : 검색 / sort : 정렬 / page : 페이지]");
 				System.out.println("Member");
-				System.out.println(
-						"[signup : 회원가입 / signin : 로그인 / findpass : 비밀번호 찾기 / findid : 아이디 찾기 / logout : 로그아웃 / myinfo : 나의 정보 확인 및 수정]");
+				System.out.println("[signup : 회원가입 / signin : 로그인 / findpass : 비밀번호 찾기 / findid : 아이디 찾기]");
+				System.out.println("[logout : 로그아웃 / myinfo : 나의 정보 확인 및 수정]");
 			}
 			// 게시물추가 add - 등록번호, 제목, 내용 추가
 			if (cmd.equals("Article add")) {
@@ -171,17 +172,20 @@ public class App {
 								continue;
 							}
 
-							Likeit rst = LDao.getLikeByArticleIdAndMemberId(target.getRegId(),loginedMember.getMRegNum());
-							
+							Likeit rst = LDao.getLikeByArticleIdAndMemberId(target.getRegId(),
+									loginedMember.getMRegNum());
+
 							if (rst == null) {
-								//좋아요
+								// 좋아요
 								Likeit like = new Likeit(target.getRegId(), loginedMember.getMRegNum());
 								LDao.insertLikeit(like);
+								target.setLikeCnt(target.getLikeCnt() + 1);
 								System.out.println("좋아요를 체크했습니다.");
 							} else {
-								//좋아요 해제-삭제
+								// 좋아요 해제-삭제
 								LDao.removeLikeit(rst);
 								System.out.println("좋아요가 해제 되었습니다.");
+								target.setLikeCnt(target.getLikeCnt() - 1);
 							}
 
 							printArticle(target);
@@ -237,7 +241,7 @@ public class App {
 					printArticles(searchedArticles);
 				}
 			}
-
+			// 1105 ~ 1106 - 정렬
 			if (cmd.equals("Article sort")) {
 				System.out.println("정렬 대상을 선택해주세요. : (like : 좋아요,  hit : 조회수)");
 				String sortType = sc.nextLine();
@@ -245,12 +249,17 @@ public class App {
 				String sortOrder = sc.nextLine();
 				MycompArticle comp1 = new MycompArticle();
 				comp1.sortOrder = sortOrder;
+				comp1.sortType = sortType;
 
 				// 조회수로 오름차순, 내림차순
 				ArrayList<Article> article = ADao.getArticles();
 				Collections.sort(article, comp1);
 				printArticles(article);
 
+			}
+			// 1106 - 페이징
+			if (cmd.equals("Article page")) {
+				
 			}
 			// =========================== Member ==============================
 
@@ -322,8 +331,7 @@ public class App {
 			Member regMember = MDao.getMemberById(article.getMid());
 			System.out.println("작성자 : " + regMember.getMRegNN());
 			System.out.println("조회수 : " + article.getViews());
-			int Likecnt = LDao.getLikeCount(article.getRegId());
-			System.out.println("좋아요 : " + Likecnt);
+			System.out.println("좋아요 : " + article.getLikeCnt());
 			System.out.println("===================");
 		}
 	}
@@ -338,9 +346,7 @@ public class App {
 		Member regMember = MDao.getMemberById(target.getMid());
 		System.out.println("작성자 : " + regMember.getMRegNN());
 		System.out.println("조회수 : " + target.getViews());
-
-		int Likecnt = LDao.getLikeCount(target.getRegId());
-		System.out.println("좋아요 : " + Likecnt);
+		System.out.println("좋아요 : " + target.getLikeCnt());
 		System.out.println("===============");
 		System.out.println("================댓글==============");
 
@@ -379,7 +385,7 @@ public class App {
 }
 
 // =========================== 정렬 ==============================
-//조회수 수 순서대로 오름차순,  내림차순
+// 좋아요 / 조회수 수 순서대로 오름차순,  내림차순
 class MycompArticle implements Comparator<Article> {
 
 	String sortOrder = "asc";
@@ -387,14 +393,24 @@ class MycompArticle implements Comparator<Article> {
 
 	@Override
 	public int compare(Article o1, Article o2) {
+		int c1 = 0;
+		int c2 = 0;
+
+		if (sortOrder.equals("hit")) {
+			c1 = o1.getViews();
+			c2 = o2.getViews();
+		} else if (sortOrder.equals("hit")) {
+			c1 = o1.getLikeCnt();
+			c2 = o2.getLikeCnt();
+		}
 
 		if (sortOrder.equals("asc")) {
-			if (o1.getViews() > o2.getViews()) {
+			if (c1 > c2) {
 				return 1; // 양수로 하는 게 확실
 			}
 			return -1;
 		} else {
-			if (o1.getViews() < o2.getViews()) {
+			if (c1 < c2) {
 				return 1; // 양수로 하는 게 확실
 			}
 			return -1;
