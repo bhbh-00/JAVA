@@ -16,10 +16,10 @@ public class App {
 
 		Scanner sc = new Scanner(System.in);
 
-		String[] Article = { "add: 게시물 추가", "list : 게시물 목록 조회", "read : 게시물 조회", "search : 검색",
-				"sort : 정렬", "page : 페이지" };
-		String[] Member = { "signup : 회원가입", "signin : 로그인", "findpass : 비밀번호 찾기", "findid : 아이디 찾기", 
-				"logout : 로그아웃", "myinfo : 나의 정보 확인 및 수정" };
+		String[] Article = { "add: 게시물 추가", "list : 게시물 목록 조회", "read : 게시물 조회", "search : 검색", "sort : 정렬",
+				"page : 페이지" };
+		String[] Member = { "signup : 회원가입", "signin : 로그인", "findpass : 비밀번호 찾기", "findid : 아이디 찾기", "logout : 로그아웃",
+				"myinfo : 나의 정보 확인 및 수정" };
 
 		System.out.println("Hello world~!");
 
@@ -268,7 +268,14 @@ public class App {
 			}
 			// 1106 - 페이징
 			if (cmd.equals("Article page")) {
-
+				
+				// 첫번째 과제 - 페이지 5개 출력하기
+				// 두번째 과제 - 현재 페이지 표현하기
+				// 세번째 과제 - 현재 페이지가 속한 페이지 블럭 출력하기
+				/* 네번째 과제 - 시작페이지와 마지막 페이지(13 이라고 가정)를 이용해
+				 * 이전/다음 페이지 블록의 유무를 알려주고 현재 페이지가 시작페이지와 마지막 페이지를 못넘어가게 하기*/ 
+				//다섯번째 과제 -  페이지와 게시물 출력 연동하기
+				
 			}
 			// =========================== Member ==============================
 
