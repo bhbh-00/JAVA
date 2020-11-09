@@ -1,17 +1,9 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Test {
+public class Test3 {
 	public static void main(String[] args) {
-		// 첫번째 과제 - 페이지 5개 출력하기
-		// 두번째 과제 - 현재 페이지 표현하기
-		// 세번째 과제 - 현재 페이지가 속한 페이지 블럭 출력하기
-		/*
-		 * 네번째 과제 - 시작페이지와 마지막 페이지(13 이라고 가정)를 이용해 이전/다음 페이지 블록의 유무를 알려주고 현재 페이지가 시작페이지와
-		 * 마지막 페이지를 못넘어가게 하기
-		 */
-		// 다섯번째 과제 - 페이지와 게시물 출력 연동하기
-
+		// 0 = 현재 페이지 1 = 현재의 이전페이지 2 = 현재의 다음페이지
 		ArrayList<Article> articles = new ArrayList<>();
 
 		for (int i = 1; i <= 50; i++) {
@@ -28,7 +20,8 @@ public class Test {
 		int totalCntOfItems = articles.size(); // 전체 게시물 개수
 
 		System.out.println("입력");
-		int currentpageNo = 10;
+		int currentpageNo = sc.nextInt();
+		System.out.println(currentpageNo);
 
 		int startPageNo = 1; // 시작 페이지 번호
 		int ItemsCntPage = 3; // 페이지당 출력 게시물 갯수
@@ -66,22 +59,24 @@ public class Test {
 		}
 
 		// 페이지별 게시물 출력
-		for (int i = startIndex; i < endIndex; i++) {
-			System.out.println("======================================");
-			System.out.println("번호 : " + articles.get(i).getRegId());
-			System.out.println("제목 : " + articles.get(i).getTitle());
-			System.out.println("내용 : " + articles.get(i).getBody());
-			System.out.println("======================================");
-		}
+		int cmd = sc.nextInt();
 
-		// 페이지 블록 출력
-		for (int i = startPageNoInBlock; i <= endPageNoInBlock; i++) {
-			if (i == currentpageNo) {
-				System.out.print("[" + i + "] ");
-			} else {
-				System.out.print(i + " ");
-			}
-		}
+//		for (int i = startIndex; i < endIndex; i++) {
+//			System.out.println("======================================");
+//			System.out.println("번호 : " + articles.get(i).getRegId());
+//			System.out.println("제목 : " + articles.get(i).getTitle());
+//			System.out.println("내용 : " + articles.get(i).getBody());
+//			System.out.println("======================================");
+//		}
+//
+//		// 페이지 블록 출력
+//		for (int i = startPageNoInBlock; i <= endPageNoInBlock; i++) {
+//			if (i == currentpageNo) {
+//				System.out.print("[" + i + "] ");
+//			} else {
+//				System.out.print(i + " ");
+//			}
+//		}
 
 	}
 }
