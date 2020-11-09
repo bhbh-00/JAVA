@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Scanner;
 
 public class App {
@@ -16,7 +15,7 @@ public class App {
 
 		Scanner sc = new Scanner(System.in);
 
-		String[] Article = { "add: 게시물 추가", "list : 게시물 목록 조회", "read : 게시물 조회", "search : 검색", "sort : 정렬",
+		String[] Article = { "add : 게시물 추가", "list : 게시물 목록 조회", "read : 게시물 조회", "search : 검색", "sort : 정렬",
 				"page : 페이지" };
 		String[] Member = { "signup : 회원가입", "signin : 로그인", "findpass : 비밀번호 찾기", "findid : 아이디 찾기", "logout : 로그아웃",
 				"myinfo : 나의 정보 확인 및 수정" };
@@ -43,16 +42,17 @@ public class App {
 			// 로그인 기능
 			if (cmd.equals("help")) {
 				System.out.println();
-				System.out.println("Article");
+				System.out.println("========= Article =========");
 				for (int i = 0; i < Article.length; i++) {
-					System.out.println(Article[i]);
+					System.out.println((i + 1) + ". " + Article[i]);
 				}
 				System.out.println();
-				System.out.println("Member");
+				System.out.println("========= Member =========");
 				for (int i = 0; i < Member.length; i++) {
-					System.out.println(Member[i]);
+					System.out.println((i + 1) + ". " + Member[i]);
 				}
 			}
+			// ========================================================= Article 
 			// 게시물추가 add - 등록번호, 제목, 내용 추가
 			if (cmd.equals("Article add")) {
 
@@ -268,16 +268,18 @@ public class App {
 			}
 			// 1106 - 페이징
 			if (cmd.equals("Article page")) {
-				
+
 				// 첫번째 과제 - 페이지 5개 출력하기
 				// 두번째 과제 - 현재 페이지 표현하기
 				// 세번째 과제 - 현재 페이지가 속한 페이지 블럭 출력하기
-				/* 네번째 과제 - 시작페이지와 마지막 페이지(13 이라고 가정)를 이용해
-				 * 이전/다음 페이지 블록의 유무를 알려주고 현재 페이지가 시작페이지와 마지막 페이지를 못넘어가게 하기*/ 
-				//다섯번째 과제 -  페이지와 게시물 출력 연동하기
-				
+				/*
+				 * 네번째 과제 - 시작페이지와 마지막 페이지(13 이라고 가정)를 이용해 이전/다음 페이지 블록의 유무를 알려주고 현재 페이지가 시작페이지와
+				 * 마지막 페이지를 못넘어가게 하기
+				 */
+				// 다섯번째 과제 - 페이지와 게시물 출력 연동하기
+
 			}
-			// =========================== Member ==============================
+			// ========================================================= Member 
 
 			// 회원가입 기능
 			if (cmd.equals("Member signup")) {
@@ -335,7 +337,7 @@ public class App {
 
 	}
 
-	// =========================== 함수 ==============================
+	// ========================================================= 함수 
 
 	// 게시판리스트출력 -> 기능 : list - 번호,제목,등록날짜,작성자,조회수
 	private void printArticles(ArrayList<Article> articleList) {
@@ -400,7 +402,7 @@ public class App {
 	}
 }
 
-// =========================== 정렬 ==============================
+// =========================================================  정렬
 // 좋아요 / 조회수 수 순서대로 오름차순,  내림차순
 class MycompArticle implements Comparator<Article> {
 
