@@ -428,10 +428,10 @@ public class App {
 			Article article = articleList.get(i);
 			System.out.println("번호 : " + article.getRegId());
 			System.out.println("제목 : " + article.getTitle());
-//			System.out.println("등록날짜 : " + article.getDate());
+			System.out.println("등록날짜 : " + article.getDate());
 
-//			Member regMember = MDao.getMemberById(article.getMid());
-//			System.out.println("작성자 : " + regMember.getMRegNN());
+			Member regMember = MDao.getMemberById(article.getMid());
+			System.out.println("작성자 : " + regMember.getMRegNN());
 			System.out.println("조회수 : " + article.getViews());
 			System.out.println("좋아요 : " + article.getLikeCnt());
 			System.out.println("===================");

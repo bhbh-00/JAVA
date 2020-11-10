@@ -23,6 +23,7 @@ public class ArticleDao {
 			a4.setTitle("제목" + i);
 			a4.setBody("내용" + i);
 			a4.getMid();
+			Util.getCurrenDate();
 
 			articles.add(a4);
 		}
