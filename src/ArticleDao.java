@@ -7,6 +7,7 @@ public class ArticleDao {
 	private int no = 4;
 
 	public ArticleDao() {
+		
 		articles = new ArrayList<Article>();
 		Article list1 = new Article(1, "제목1", "내용1", 1, Util.getCurrenDate() , 10, 1);
 		Article list2 = new Article(2, "제목2", "내용2", 2, Util.getCurrenDate(), 13, 5);
@@ -15,6 +16,17 @@ public class ArticleDao {
 		articles.add(list1);
 		articles.add(list2);
 		articles.add(list3);
+		
+		for (int i = no; i <= 50; i++) {
+			Article a4 = new Article();
+			a4.setRegId(i);
+			a4.setTitle("제목" + i);
+			a4.setBody("내용" + i);
+			a4.getMid();
+
+			articles.add(a4);
+		}
+
 
 	}
 
