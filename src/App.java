@@ -80,7 +80,9 @@ public class App {
 			if (cmd.equals("Article list")) {
 
 				ArrayList<Article> articles = ADao.getArticles();
-				printArticles(articles, 1);
+				
+				Pagination pagination = new Pagination();
+				printArticles(articles, pagination);
 
 			}
 			// 수정 update - 제목과 내용을 수정하는 기능
@@ -246,8 +248,10 @@ public class App {
 					String keyword = sc.nextLine();
 					ArrayList<Article> searchedArticles;
 					searchedArticles = ADao.getSearchedArticleByflag(flag, keyword);
-
-					printArticles(searchedArticles, 1);
+					
+					Pagination pagination = new Pagination();
+					printArticles(searchedArticles, pagination);
+				
 				}
 			}
 			// 1105 ~ 1106 - 정렬
@@ -263,7 +267,9 @@ public class App {
 				// 조회수로 오름차순, 내림차순
 				ArrayList<Article> article = ADao.getArticles();
 				Collections.sort(article, comp1);
-				printArticles(article, 1);
+				
+				Pagination pagination = new Pagination();
+				printArticles(article, pagination);
 
 			}
 			// 1106 - 페이징
@@ -274,25 +280,25 @@ public class App {
 				String[] Page = { "prev : 이전 ", "next : 다음", "prevPage : 이전페이지", "nextPage : 다음페이지",
 						"count : 페이지당 게시물 수", "go : 선택 ", "back : 뒤로가기" };
 				System.out.println("원하시는 명령어를 입력해주세요.");
-				System.out.println();		
+				System.out.println();
 				for (int i = 0; i < Page.length; i++) {
 					System.out.println((i + 1) + ". " + Page[i]);
 				}
 				System.out.println();
-				int currentpageNo = 1;
-				int currentpageBlock = 1;
-				int PageCntPerBlock = 5;
 				
-				printArticles(article, currentpageNo);
+				int currentpageNo = 1;
 
+				Pagination pagination = new Pagination();
+				pagination.setCurrentPageNo(currentpageNo);
+				printArticles(article, pagination);
 
 				while (true) {
 					String Pagecmd = sc.nextLine();
 
 					// 다음
 					if (Pagecmd.equals("next")) {
-						currentpageNo++;
-						printArticles(article, currentpageNo);
+						pagination.setCurrentPageNo(pagination.getCurrentPageNo() + 1);
+	
 					}
 					// 뒤로가기
 					else if (Pagecmd.equals("back")) {
@@ -301,28 +307,33 @@ public class App {
 					}
 					// 이전
 					else if (Pagecmd.equals("prev")) {
-						currentpageNo--;
-						printArticles(article, currentpageNo);
+						pagination.setCurrentPageNo(pagination.getCurrentPageNo() - 1);
+			
 					}
 					// 이전블럭
 					else if (Pagecmd.equals("prevPage")) {
-						currentpageNo = currentpageNo - PageCntPerBlock;
+						int currentPageBlock = pagination.getCurrentPageBlock();
+						pagination.setCurrentPageBlock(currentPageBlock - 1);
+						pagination.setCurrentPageNo(pagination.getStartPageNoInBlock());
 					}
 					// 다음블럭
 					else if (Pagecmd.equals("nextPage")) {
-						currentpageNo = currentpageNo + PageCntPerBlock;
+						int currentPageBlock = pagination.getCurrentPageBlock();
+						pagination.setCurrentPageBlock(currentPageBlock + 1);
+						pagination.setCurrentPageNo(pagination.getStartPageNoInBlock());
 					}
 					// 페이지당 게시물 수 - 페이지당 게시물이 입력한 수만큼 출력
 					else if (Pagecmd.equals("count")) {
 						System.out.print("원하시는 페이지 갯수를 선택해주세요 : ");
 						int count = Integer.parseInt(sc.nextLine());
+						pagination.setItemsCntPerPage(count);
 					}
-					//선택
+					// 선택
 					else if (Pagecmd.equals("go")) {
-						System.out.print("원하시는 페이지를 선택해주세요 : ");
 						currentpageNo = Integer.parseInt(sc.nextLine());
+						pagination.setCurrentPageNo(currentpageNo);
 					}
-					printArticles(article, currentpageNo);
+					printArticles(article, pagination);
 				}
 			}
 			// ========================================================= Member
@@ -385,46 +396,46 @@ public class App {
 	// ========================================================= 함수(재활용 -> 연산)
 
 	// 게시판리스트출력 -> 기능 : list - 번호,제목,등록날짜,작성자,조회수
-	private void printArticles(ArrayList<Article> articleList, int currentpageNo) {
+	private void printArticles(ArrayList<Article> articleList, Pagination pagination) {
 
-		int totalCntOfItems = articleList.size(); // 전체 게시물 개수
+//		int totalCntOfItems = articleList.size(); // 전체 게시물 개수
+//
+//		int startPageNo = 1; // 시작 페이지 번호
+//		int ItemsCntPage = 3; // 페이지당 출력 게시물 갯수
+//		int PageCntPerBlock = 5; // 한 페이지 블럭 당 페이지 갯수
+//
+//		int endPageNo = (int) Math.ceil(((double) totalCntOfItems / ItemsCntPage)); // 마지막 페이지 번호(올림 매서드)
+//
+//		// 현재 페이지가 시작페이지보다 작으면 안됨
+//		if (currentpageNo < startPageNo) {
+//			currentpageNo = startPageNo;
+//		}
+//
+//		// 현재 페이지가 마지막페이지보다 크면 안됨
+//		if (currentpageNo > endPageNo) {
+//			currentpageNo = endPageNo;
+//		}
+//
+//		int currentpageBlock = (int) Math.ceil(((double) currentpageNo / PageCntPerBlock)); // 현재 페이지 블럭
+//		int startPageNoInBlock = (currentpageBlock - 1) * PageCntPerBlock + 1; // 현재 페이지블록의 시작 페이지 번호
+//		int endPageNoInBlock = startPageNoInBlock + PageCntPerBlock - 1; // 현재 페이지블록의 마지막 페이지 번호
+//
+//		// 페이지 번호가 마지막 페이지를 넘으면 안됨
+//		if (endPageNoInBlock > endPageNo) {
+//			endPageNoInBlock = endPageNo;
+//		}
+//		// 해당 페이지의 게시물 목록의 첫 인덱스
+//		int startIndex = (currentpageNo - 1) * ItemsCntPage;
+//
+//		// 해당 페이지의 게시물 목록의 마지막 인덱스
+//		int endIndex = startIndex + ItemsCntPage;
+//
+//		// 페이지의 마지막 인덱스가 저장소의 마지막 인덱스보다 크면 안됨
+//		if (endIndex > totalCntOfItems) {
+//			endIndex = totalCntOfItems;
+//		}
 
-		int startPageNo = 1; // 시작 페이지 번호
-		int ItemsCntPage = 3; // 페이지당 출력 게시물 갯수
-		int PageCntPerBlock = 5; // 한 페이지 블럭 당 페이지 갯수
-
-		int endPageNo = (int) Math.ceil(((double) totalCntOfItems / ItemsCntPage)); // 마지막 페이지 번호(올림 매서드)
-
-		// 현재 페이지가 시작페이지보다 작으면 안됨
-		if (currentpageNo < startPageNo) {
-			currentpageNo = startPageNo;
-		}
-
-		// 현재 페이지가 마지막페이지보다 크면 안됨
-		if (currentpageNo > endPageNo) {
-			currentpageNo = endPageNo;
-		}
-
-		int currentpageBlock = (int) Math.ceil(((double) currentpageNo / PageCntPerBlock)); // 현재 페이지 블럭
-		int startPageNoInBlock = (currentpageBlock - 1) * PageCntPerBlock + 1; // 현재 페이지블록의 시작 페이지 번호
-		int endPageNoInBlock = startPageNoInBlock + PageCntPerBlock - 1; // 현재 페이지블록의 마지막 페이지 번호
-
-		// 페이지 번호가 마지막 페이지를 넘으면 안됨
-		if (endPageNoInBlock > endPageNo) {
-			endPageNoInBlock = endPageNo;
-		}
-		// 해당 페이지의 게시물 목록의 첫 인덱스
-		int startIndex = (currentpageNo - 1) * ItemsCntPage;
-
-		// 해당 페이지의 게시물 목록의 마지막 인덱스
-		int endIndex = startIndex + ItemsCntPage;
-
-		// 페이지의 마지막 인덱스가 저장소의 마지막 인덱스보다 크면 안됨
-		if (endIndex > totalCntOfItems) {
-			endIndex = totalCntOfItems;
-		}
-		
-		for (int i = startIndex; i < endIndex; i++) {
+		for (int i = pagination.getStartIndex(); i < pagination.getEndIndex(); i++) {
 			Article article = articleList.get(i);
 			System.out.println("번호 : " + article.getRegId());
 			System.out.println("제목 : " + article.getTitle());
@@ -437,8 +448,8 @@ public class App {
 			System.out.println("===================");
 		}
 
-		for (int i = startPageNoInBlock; i <= endPageNoInBlock; i++) {
-			if (i == currentpageNo) {
+		for (int i = pagination.getStartPageNoInBlock(); i <= pagination.getEndPageNoInBlock(); i++) {
+			if (i == pagination.getCurrentPageBlock()) {
 				System.out.print("[" + i + "] ");
 			} else {
 				System.out.print(i + " ");
@@ -527,4 +538,5 @@ class MycompArticle implements Comparator<Article> {
 			return -1;
 		}
 	}
+
 }

@@ -1,39 +1,49 @@
 
 public class Pagination {
 
-	private int currentpageNo = 1;
+	private int currentPageNo = 1;
 	private int totalCntOfItems; // 전체 게시물 개수
-
 	private int startPageNo = 1; // 시작 페이지 번호
-	private int ItemsCntPage = 3; // 페이지당 출력 게시물 갯수
-	private int PageCntPerBlock = 5; // 한 페이지 블럭 당 페이지 갯수
+	private int itemsCntPerPage = 3; // 페이지당 출력 게시물 개수
+	private int pageCntPerBlock = 5; // 한 페이지 블록 당 페이지 개수
+	private int currentPageBlock = 1; 
 
-	public int getcurrentpageBlock() {
-		int currentpageBlock = (int) Math.ceil(((double) currentpageNo / PageCntPerBlock)); // 현재 페이지 블럭
-		return currentpageBlock;
+	public int getEndPageNoInBlock() {
+		return getStartPageNoInBlock() + pageCntPerBlock - 1;
 	}
 
-	public int getendPageNo() {
-		return (int) Math.ceil(((double) totalCntOfItems / ItemsCntPage)); // 마지막 페이지 번호(올림 매서드);
+	public int getStartPageNoInBlock() {
+		return  (getCurrentPageBlock() - 1) * pageCntPerBlock + 1;
 	}
 
-	public int getstartIndex() {
-		// 해당 페이지의 게시물 목록의 첫 인덱스
-		return (currentpageNo - 1) * ItemsCntPage;
-
+	public int getStartIndex() {
+		return (currentPageNo - 1) * itemsCntPerPage;
 	}
 
-	public int getendIndex() {
-		// 해당 페이지의 게시물 목록의 마지막 인덱스
-		return getstartIndex() + ItemsCntPage;
+	public int getEndIndex() {
+		return getStartIndex() + itemsCntPerPage;
 	}
 
-	public int getCurrentpageNo() {
-		return currentpageNo;
+	public int getEndPageNo() {
+		return (int) Math.ceil((double) totalCntOfItems / itemsCntPerPage); // 마지막 페이지 번호
 	}
 
-	public void setCurrentpageNo(int currentpageNo) {
-		this.currentpageNo = currentpageNo;
+	public int getCurrentPageBlock() {
+		return this.currentPageBlock;
+	}
+
+	public void setCurrentPageBlock(int currentPageBlock) {
+		this.currentPageBlock = currentPageBlock;
+	}
+
+	public int getCurrentPageNo() {
+		return currentPageNo;
+	}
+
+	public void setCurrentPageNo(int currentPageNo) {
+		this.currentPageNo = currentPageNo;
+		int currentPageBlock = (int) Math.ceil((double) currentPageNo / pageCntPerBlock);
+		setCurrentPageBlock(currentPageBlock);
 	}
 
 	public int getTotalCntOfItems() {
@@ -52,20 +62,20 @@ public class Pagination {
 		this.startPageNo = startPageNo;
 	}
 
-	public int getItemsCntPage() {
-		return ItemsCntPage;
+	public int getItemsCntPerPage() {
+		return itemsCntPerPage;
 	}
 
-	public void setItemsCntPage(int itemsCntPage) {
-		ItemsCntPage = itemsCntPage;
+	public void setItemsCntPerPage(int itemsCntPerPage) {
+		this.itemsCntPerPage = itemsCntPerPage;
 	}
 
 	public int getPageCntPerBlock() {
-		return PageCntPerBlock;
+		return pageCntPerBlock;
 	}
 
 	public void setPageCntPerBlock(int pageCntPerBlock) {
-		PageCntPerBlock = pageCntPerBlock;
+		this.pageCntPerBlock = pageCntPerBlock;
 	}
 
 }
