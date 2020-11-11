@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import org.json.simple.JSONObject;
+
 public class ArticleDao {
 
 	public ArrayList<Article> articles;
@@ -38,7 +40,16 @@ public class ArticleDao {
 
 		a.setDate(Util.getCurrenDate());
 
-		articles.add(a);
+		// articles.add(a); -> 이거 아니고 파일저장
+	}
+	
+	public void ArticleToJsonFile() {
+		JSONObject obj = new JSONObject();
+		String jsonText;
+
+		obj.put("id", new Integer(1));
+		
+		jsonText = out.toString();
 	}
 
 	// 제거
